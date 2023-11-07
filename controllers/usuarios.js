@@ -1,69 +1,81 @@
-const {response}= require('express');
-const bcryptjs= require('bcryptjs');
+const {request, response } = require('express');
+const bcryptjs = require('bcryptjs');
 
-const Usuario= require('../models/usuario');
+const Usuario = require('../models/usuario');
 
-const usuariosGet = (req,res= response)=>{
+const usuariosGet = async(req=request, res = response) => {
 
-    const query= req.query;
+    const {limite=5, desde=0 }= req.query;
+    const usuarios= await Usuario.find()
+    .skip(Number(desde))
+    .limit(Number(limite));
 
     res.json({
-        msg:'get API - controlador',
-        query
+        msg: 'get API - controlador',
+        usuarios
     })
 }
 
-const usuariosPost=async (req,res=response)=>{
+const usuariosPost = async (req, res = response) => {
 
-    
 
-    const {nombre,correo, password, rol}= req.body;
 
-    const usuario= new Usuario({nombre,correo, password, rol});
-    
+    const { nombre, correo, password, rol } = req.body;
+
+    const usuario = new Usuario({ nombre, correo, password, rol });
+
 
     //Encriptar la contraseña
-    const salt= bcryptjs.genSaltSync();
-    usuario.password= bcryptjs.hashSync(password,salt);
+    const salt = bcryptjs.genSaltSync();
+    usuario.password = bcryptjs.hashSync(password, salt);
 
     await usuario.save();
-    
+
 
     res.json({
-        msg:'post API - controlador',
+        msg: 'post API - controlador',
         usuario
     })
 }
 
 
-const usuariosPut=(req,res=response)=>{
+const usuariosPut = async (req, res = response) => {
 
-    const id=req.params.id;
+    const { id } = req.params;
+    const { _id,password, google, correo, ...resto } = req.body;
+
+    if (password) {
+        //Encriptar la contraseña
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const usuario = await Usuario.findByIdAndUpdate(id, resto);
 
 
     res.json({
-        msg:'put API - controlador',
-        id
+        msg: 'put API - controlador',
+        usuario
     })
 }
 
 
-const usuariosPatch=(req,res=response)=>{
+const usuariosPatch = (req, res = response) => {
 
     res.json({
-        msg:'patch API - controlador'
+        msg: 'patch API - controlador'
     })
 }
 
 
-const usuariosDelete=(req,res=response)=>{
+const usuariosDelete = (req, res = response) => {
 
     res.json({
-        msg:'delete API - controlador'
+        msg: 'delete API - controlador'
     })
 }
 
-module.exports={
+module.exports = {
     usuariosGet,
     usuariosPost,
     usuariosPut,
