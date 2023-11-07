@@ -8,10 +8,10 @@ const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db
 const router = Router();
 
 
-router.get('/',[
-        query('limite','El valor de limite debe ser numérico').isNumeric().optional(),
-        query('desde','El valor de desde debe ser numérico').isNumeric().optional(),
-        validarCampos,
+router.get('/', [
+    query('limite', 'El valor de limite debe ser numérico').isNumeric().optional(),
+    query('desde', 'El valor de desde debe ser numérico').isNumeric().optional(),
+    validarCampos,
 ], usuariosGet);
 router.post('/', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
@@ -23,13 +23,17 @@ router.post('/', [
     validarCampos
 ], usuariosPost),
 
-router.put('/:id',[
-    check('id','No es un ID válido').isMongoId(),
-    check('id').custom((id)=>existeUsuarioPorId(id)),
-    check('rol').custom(esRoleValido),
-    validarCampos
-], usuariosPut);
+    router.put('/:id', [
+        check('id', 'No es un ID válido').isMongoId(),
+        check('id').custom((id) => existeUsuarioPorId(id)),
+        check('rol').custom(esRoleValido),
+        validarCampos
+    ], usuariosPut);
 router.patch('/', usuariosPatch);
-router.delete('/', usuariosDelete);
+router.delete('/:id', [
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom((id) => existeUsuarioPorId(id)),
+    validarCampos
+], usuariosDelete);
 
 module.exports = router;
