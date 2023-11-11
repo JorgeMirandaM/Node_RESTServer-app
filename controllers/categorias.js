@@ -3,7 +3,7 @@ const { Categoria } = require('../models');
 
 
 
-const categoriasGet = async (req, res = response) => {
+const obtenerCategorias = async (req, res = response) => {
 
     try {
         const { limite = 5, desde = 0 } = req.query;
@@ -159,7 +159,7 @@ const borrarCategoria = async (req, res = response) => {
 
 module.exports = {
     crearCategoria,
-    categoriasGet,
+    obtenerCategorias,
     obtenerCategoria,
 
     actualizarCategoria,

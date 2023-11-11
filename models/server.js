@@ -10,14 +10,15 @@ class Server {
         this.paths={
             auth: '/api/auth',
             usuarios:'/api/usuarios',
-            categorias:'/api/categorias'
+            categorias:'/api/categorias',
+            productos:'/api/productos'
         }
 
         //Conectar a base de datos
         this.conectarDB();
 
         // Middlewares
-        this.middleware();
+        this.middlewares();
 
         //Rutas de mi aplicación
 
@@ -28,7 +29,7 @@ class Server {
         await dbConnection();
     }
 
-    middleware(){
+    middlewares(){
 
         //CORS
         this.app.use(cors());
@@ -45,6 +46,7 @@ class Server {
         this.app.use(this.paths.usuarios,require('../routes/usuarios'));
         this.app.use(this.paths.auth,require('../routes/auth'));
         this.app.use(this.paths.categorias, require('../routes/categorias'));
+        this.app.use(this.paths.productos, require('../routes/productos'));
     }
  
     listen(){
