@@ -19,7 +19,8 @@
     "express-validator": "^7.0.1",
     "google-auth-library": "^9.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.0.0"
+    "mongoose": "^8.0.0",
+    "uuid": "^9.0.1"
   },
   "engines": {
     "node": ">=18.18.0 <20.9.0"
