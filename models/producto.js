@@ -24,7 +24,7 @@ const ProductoSchema=Schema({
     },
     categoria:{
         type:Schema.Types.ObjectId,
-        red:'Categoria',
+        ref:'Categoria',
         required:true
     },
     descripcion:{
