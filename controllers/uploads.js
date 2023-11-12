@@ -10,12 +10,16 @@ const cargarArchivo =async (req,res)=>{
     }
 
 
-    const nombre= await subirArchivo(req.files);
+    try {
+      const nombre= await subirArchivo(req.files,undefined,'imgs');
 
     res.json({
       nombre
     })
    
+    } catch (error) {
+      res.status(400).json({error});
+    }
   
   
    
