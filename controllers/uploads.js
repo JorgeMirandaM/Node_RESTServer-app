@@ -154,10 +154,11 @@ const mostrarImagen=async (req,res)=>{
   // Limpiar imágenes previas
   if(modelo.img){
     // Hay que borrar la imagen del servidor
-    const pathImagen= path.join(__dirname,'../uploads', coleccion,modelo.img);
-    if(fs.existsSync(pathImagen)){
-      return res.sendFile(pathImagen)
-    }
+    return res.redirect(modelo.img);
+    // const pathImagen= path.join(__dirname,'../uploads', coleccion,modelo.img);
+    // if(fs.existsSync(pathImagen)){
+    //   return res.sendFile(pathImagen)
+    // }
   }
   const pathImagen= path.join(__dirname,'../assets/no-image.jpg');
   res.sendFile(pathImagen);
